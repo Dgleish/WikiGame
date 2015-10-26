@@ -3,10 +3,12 @@ function startGame(){
         var backgroundPage = chrome.extension.getBackgroundPage();
         var sourcePage = document.getElementById('source').value;
         var activeTab = arrayOfTabs[0]
-        chrome.tabs.update(activeTab.id, {url: "https://en.wikipedia.org/w/index.php?search=" + sourcePage});
-        console.log(backgroundPage);
-
-        backgroundPage.registerGame(activeTab.url);
+        if(document.getElementById('gameid').value != ""){
+            backgroundPage.joinGame(document.getElementById('gameid').value);
+            console.log(document.getElementById('gameid').value);
+        } else {
+            backgroundPage.registerGame("https://en.wikipedia.org/w/index.php?search=" + sourcePage, activeTab.url);
+        }
     });
 }
 
