@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+
+  "name": "Wiki Game",
+  "description": "",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": ["background.js", "jquery-2.1.4.js"]
+  },
+  "permissions": [
+    "activeTab", "tabs",
+    "http://*/",
+    "https://*/"
+  ]
+}
