@@ -1,0 +1,26 @@
+ #wikigameInfoBox {
+
+    /* overlay is hidden before loading */
+    display:none;
+
+    /* standard decorations */
+    width:auto;
+    border:10px solid #666;
+    padding:10px;
+     background-color:#fff;
+    /* for modern browsers use semi-transparent color on the border. nice! */
+    border:10px solid rgba(82, 82, 82, 0.698);
+
+    /* hot CSS3 features for mozilla and webkit-based browsers (rounded borders) */
+    -webkit-border-radius:8px;
+  }
+
+#wikigameInfoBox div {
+    margin:-11px;
+    margin-bottom:0px;
+    color:#fff;
+    background-color:#84B46D;
+    padding:5px 10px;
+    border:1px solid #59983B;
+    font-size:20px;
+}

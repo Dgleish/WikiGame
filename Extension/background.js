@@ -4,12 +4,32 @@ var timer = 0;
 var index = 0;
 var badgeText = '';
 var destination = '';
-var gameID = 0;
+var gameID = -1;
+var othersStats = [];
 chrome.browserAction.setBadgeBackgroundColor({ color: [255, 0, 0, 255] });
 
-function update(){
+function update(tabId){
 $.get("http://wiki-game-1109.appspot.com/update?gameID="+gameID+"&index=" + (pages.length-1), function(data){
         console.log("Data Loaded: " + data);
+        othersStats = [];
+        var delimited = data.split(',');
+        for(var i=2;i<delimited.length;i++){
+            othersStats.push(delimited[i].split("'")[1]+','+delimited[i].split("'")[3]+"&");
+        }
+        console.log(othersStats);
+        chrome.tabs.executeScript(tabId, {
+            file: "jquery.tools.min.js"
+        });
+                    chrome.tabs.insertCSS(tabId, {
+            file: "Overlay/overlay.css"
+        });
+                    chrome.tabs.executeScript(tabId, {
+            file: "Overlay/overlay.js"
+        }, function() {
+        chrome.tabs.executeScript(tabId, {
+                                   code: "createOverlay('" + othersStats + "');"
+                               });});
+
     });
 }
 function registerGame(source, dest){
@@ -42,38 +62,40 @@ var urlChanged = function(tabId, changeInfo, tab){
         console.log("tab url = " + tab.url);
     if(urlArr[2] === "en.wikipedia.org"){ //if on wikipedia
         var currPage = urlArr[4];
-        //get rid of search bar
-        chrome.tabs.executeScript(tabId, {
-           code: "document.getElementById('simpleSearch').remove()"
-        });
-
-        //check if just visited
-        if(pages.length > 1 && pages[index-2] === currPage){
-            console.log("Went back");
-            decrementCounter();
-            index--;
-            pages.pop();
-        } else {
-            console.log("Adding " + currPage + " at index " + index);
-            console.log("Pages so far: " + pages);
-            incrementCounter();
-            pages.push(currPage);
-            index++;
-        }
-        if(index != (pages.length)){
-            console.log("Index is " + index + ", array length is " + pages.length);
-        }
-        update();
-        //check if reached destination
-        if(currPage === destination){
-            console.log("Finished");
-            timeTaken = (new Date()).getTime() - timer;
+        if(currPage.search("#") == -1){ //check for navigation on same page
+            //get rid of search bar
             chrome.tabs.executeScript(tabId, {
-                code: "alert('Finished! Took you " + timeTaken +"ms and "
-                            + (pages.length-1) + " steps');"
+               code: "document.getElementById('simpleSearch').remove()"
             });
 
-            stop();
+            //check if just visited
+            if(pages.length > 1 && pages[index-2] === currPage){
+                console.log("Went back");
+                decrementCounter();
+                index--;
+                pages.pop();
+            }else {
+                console.log("Adding " + currPage + " at index " + index);
+                console.log("Pages so far: " + pages);
+                incrementCounter();
+                pages.push(currPage);
+                index++;
+            }
+            if(index != (pages.length)){
+                console.log("Index is " + index + ", array length is " + pages.length);
+            }
+            update(tabId);
+            //check if reached destination
+            if(currPage === destination){
+                console.log("Finished");
+                timeTaken = (new Date()).getTime() - timer;
+                chrome.tabs.executeScript(tabId, {
+                    code: "alert('Finished! Took you " + timeTaken +"ms and "
+                                + (pages.length-1) + " steps');"
+                });
+
+                stop();
+            }
         }
     } else { //navigated away, naughty
         chrome.tabs.executeScript(tabId, {
@@ -85,16 +107,19 @@ var urlChanged = function(tabId, changeInfo, tab){
 }
 
 function start(source, dest){
+
  chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
     var activeTab = arrayOfTabs[0]
-    chrome.tabs.update(activeTab.id, {
-        url: source});
 
     destination = dest.split('/')[4];
+    alert("Destination is " + destination.replace("_"," "));
     console.info("Start");
     timer = (new Date()).getTime();
     chrome.tabs.onUpdated.addListener(urlChanged);
+    chrome.tabs.update(activeTab.id, {
+            url: source});
     });
+
 }
 
 function stop(){
@@ -103,11 +128,11 @@ function stop(){
     index = 0;
     badgeText = '';
     destination = '';
+    gameID = -1;
     console.info("Stop");
     chrome.tabs.onUpdated.removeListener(urlChanged);
     chrome.browserAction.setBadgeText({text: badgeText});
 }
-
 function incrementCounter(){
      if(badgeText.length == 0){
             badgeText = '0';
