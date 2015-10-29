@@ -27,7 +27,9 @@ $.get("http://wiki-game-1109.appspot.com/update?gameID="+gameID+"&index=" + (pag
             file: "Overlay/overlay.js"
         }, function() {
         chrome.tabs.executeScript(tabId, {
-                                   code: "createOverlay('" + othersStats + "');"
+                                   code: "createOverlay('" +
+                                   delimited[0].split("'")[3].split('/wiki/')[1].replace(/_/g, ' ') +
+                                   "','" + othersStats + "');"
                                });});
 
     });
@@ -61,8 +63,8 @@ var urlChanged = function(tabId, changeInfo, tab){
         var urlArr = tab.url.split('/');
         console.log("tab url = " + tab.url);
     if(urlArr[2] === "en.wikipedia.org"){ //if on wikipedia
-        var currPage = urlArr[4];
-        if(currPage.search("#") == -1){ //check for navigation on same page
+        var currPage = urlArr[4].split("#")[0];
+        if(currPage !== pages[index-1]){ //check for navigation on same page
             //get rid of search bar
             chrome.tabs.executeScript(tabId, {
                code: "document.getElementById('simpleSearch').remove()"

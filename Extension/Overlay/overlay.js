@@ -1,8 +1,7 @@
- function createOverlay(stats){
-
+ function createOverlay(dest, stats){
  var text = '<div id="wikigameInfoBox">' +
- '<div>Current counts:</div>' + '<br>'+
- stats.replace("&", "<br>").replace(",", " | ") +
+ '<div>Target: ' + dest + '</div>' + '<br>'+
+ stats.replace(/&/g, "<br>").replace(/,/g, " | ") +
  '</div>';
  $('body').append($(text));
  $('#wikigameInfoBox').overlay({
