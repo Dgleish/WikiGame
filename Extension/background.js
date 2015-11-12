@@ -72,7 +72,7 @@ function joinGame(id) {
 // Go into the waiting area before game starts
 function enterWaitingArea() {
     var ready = false;
-    var finishedRequest = false;
+    var finishedRequest = true;
     while (!ready) {
         if(finishedRequest) {
             finishedRequest = false;
