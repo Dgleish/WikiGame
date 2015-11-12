@@ -8,15 +8,17 @@ var gameID = -1;
 var othersStats = [];
 var source_url = '';
 var dest_url = '';
+var playerid = 0;
 chrome.browserAction.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
 
 // On each page load send position to server and get back position of everyone else playing same game
 function update(tabId) {
-    $.get("http://wiki-game-1109.appspot.com/update?gameID=" + gameID + "&index=" + (pages.length - 1), function (data) {
+    $.get("http://wiki-game-1109.appspot.com/update?gameID=" + gameID + "&index=" +
+        (pages.length - 1)  + "&pid=" + playerid, function (data) {
         console.log("Data Loaded: " + data);
         othersStats = [];
         var delimited = data.split(',');
-        for (var i = 2; i < delimited.length; i++) {
+        for (var i = 0; i < delimited.length; i++) {
             othersStats.push(delimited[i].split("'")[1] + ',' + delimited[i].split("'")[3] + "&");
         }
         console.log(othersStats);
@@ -31,8 +33,7 @@ function update(tabId) {
         }, function () {
             chrome.tabs.executeScript(tabId, {
                 code: "createOverlay('" +
-                delimited[0].split("'")[3].split('/wiki/')[1].replace(/_/g, ' ') +
-                "','" + othersStats + "');"
+                dest_page + "','" + othersStats + "');"
             });
         });
 
@@ -41,7 +42,9 @@ function update(tabId) {
 
 // Start a new game
 function registerGame(source, dest) {
-    $.get("http://wiki-game-1109.appspot.com/register?source=" + source + "&dest=" + dest, function (data) {
+    playerid = getRandomInt();
+    $.get("http://wiki-game-1109.appspot.com/register?source=" + source
+        + "&dest=" + dest + "&pid=" + playerid, function (data) {
         gameID = data;
         console.log("gameID: " + data);
         source_url = source;
@@ -51,15 +54,16 @@ function registerGame(source, dest) {
 
 // Leave a game
 function unregisterGame() {
-    $.get("http://wiki-game-1109.appspot.com/unregister?gameID=" + gameID, function (data) {
+    $.get("http://wiki-game-1109.appspot.com/unregister?gameID=" + gameID + "&pid=" + playerid, function (data) {
         console.log("Unregistered: " + data);
     });
 }
 
 // Join a game in progress
 function joinGame(id) {
+    playerid = getRandomInt();
     gameID = id;
-    $.get("http://wiki-game-1109.appspot.com/join?gameID=" + gameID, function (data) {
+    $.get("http://wiki-game-1109.appspot.com/join?gameID=" + gameID + "&pid=" + playerid, function (data) {
         console.log("result: " + data);
         if (data !== 'Failure') {
             source_url = data.split(',')[0];
@@ -76,7 +80,7 @@ function enterWaitingArea() {
     while (!ready) {
         if(finishedRequest) {
             finishedRequest = false;
-            $.get("http://wiki-game-1109.appspot.com/check?gameID=" + gameID, function (data) {
+            $.get("http://wiki-game-1109.appspot.com/check?gameID=" + gameID + "&pid=" + playerid, function (data) {
                 if (data == '1') {
                     ready = true;
                     finishedRequest = true;
@@ -154,7 +158,7 @@ function beginGame() {
 }
 
 function hostStart() {
-    $.get("http://wiki-game-1109.appspot.com/go?gameID=" + gameID, function (data) {
+    $.get("http://wiki-game-1109.appspot.com/go?gameID=" + gameID + "&pid=" + playerid, function (data) {
         if (data != 'Success') {
             console.log("Failed to start game");
         } else {
@@ -188,4 +192,10 @@ function incrementCounter() {
 function decrementCounter() {
     badgeText = '' + (parseInt(badgeText, 10) - 1);
     chrome.browserAction.setBadgeText({text: badgeText});
+}
+
+function getRandomInt() {
+    var min = 10;
+    var max = 1000000;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }

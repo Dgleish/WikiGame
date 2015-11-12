@@ -10,7 +10,7 @@ app = Flask(__name__)
 gameNumber = 0
 
 # List of dictionaries containing player IPs and page counts
-games = [{}]
+games = [[]]
 
 # Dictionary containing games that are running
 runningGames = {}
@@ -19,22 +19,26 @@ runningGames = {}
 # dictionary for that game
 @app.route('/update', methods=['GET'])
 def update():
-	ip = str(request.environ['REMOTE_ADDR'])
+	pid = str(request.args.get('pid'))
 	id = int(request.args.get('gameID'))
-	games[id][ip] = str(request.args.get('index'))
-	gameState = str(games[id])
+	games[id][1][pid] = str(request.args.get('index'))
+	gameState = str(games[id][1])
 	return gameState	
 
+@app.route('/debug', methods=['GET'])
+def debug():
+	return str(request.environ)
+	
 # Start a new game and get its ID
 @app.route('/register', methods=['GET'])
 def register():
 	global gameNumber
-	ip = str(request.environ['REMOTE_ADDR'])
+	pid = str(request.args.get('pid'))
 	dest = str(request.args.get('dest'))
 	source = str(request.args.get('source'))
-	games.insert(gameNumber,{ip : 0})
-	games[gameNumber]['source'] = source
-	games[gameNumber]['dest'] = dest
+	games.insert(gameNumber,[{},{pid : 0}])
+	games[gameNumber][0]['source'] = source
+	games[gameNumber][0]['dest'] = dest
 	gameNumber += 1
 	return str(gameNumber-1)
 
@@ -42,26 +46,26 @@ def register():
 @app.route('/unregister', methods=['GET'])
 def unregister():
 	global gameNumber
-	ip = str(request.environ['REMOTE_ADDR'])
+	pid = str(request.args.get('pid'))
 	id = int(request.args.get('gameID'))
 	if id == -1:
 		return 'Error: Not in a game'
-	if len(games[id]) == 1:
-		games[id] = {}
+	if len(games[id][1]) == 1:
+		games[id] = []
 		runningGames.pop(id)
 		gameNumber -= 1
 	else:
-		del games[id][ip]
+		del games[id][1][pid]
 	return 'Success'
 
 # Join a specific gameID
 @app.route('/join', methods=['GET'])
 def join():
-	ip = str(request.environ['REMOTE_ADDR'])
+	pid = str(request.args.get('pid'))
 	id = int(request.args.get('gameID'))
 	if id <= gameNumber:
-		games[id][ip] = 0
-		result = games[id]['source'] + ',' + games[id]['dest']
+		games[id][1][pid] = 0
+		result = games[id][0]['source'] + ',' + games[id][0]['dest']
 		return result
 	return 'Invalid Game ID'
 
