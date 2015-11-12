@@ -9,12 +9,13 @@ var othersStats = [];
 var source_url = '';
 var dest_url = '';
 var playerid = 0;
+var checkTimer;
 chrome.browserAction.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
 
 // On each page load send position to server and get back position of everyone else playing same game
 function update(tabId) {
     $.get("http://wiki-game-1109.appspot.com/update?gameID=" + gameID + "&index=" +
-        (pages.length - 1)  + "&pid=" + playerid, function (data) {
+        (pages.length - 1) + "&pid=" + playerid, function (data) {
         console.log("Data Loaded: " + data);
         othersStats = [];
         var delimited = data.split(',');
@@ -64,37 +65,20 @@ function joinGame(id) {
     playerid = getRandomInt();
     gameID = id;
     $.get("http://wiki-game-1109.appspot.com/join?gameID=" + gameID + "&pid=" + playerid, function (data) {
-        console.log("result: " + data);
+        console.log("joingame: " + data);
         if (data !== 'Failure') {
             source_url = data.split(',')[0];
             dest_url = data.split(',')[1];
             enterWaitingArea();
+            // Go into the waiting area before game starts
+            checkTimer = setInterval(checkForGameStart, 500);
         }
     });
 
 }
-// Go into the waiting area before game starts
-function enterWaitingArea() {
-    var ready = false;
-    var finishedRequest = true;
-    while (!ready) {
-        if(finishedRequest) {
-            finishedRequest = false;
-            $.get("http://wiki-game-1109.appspot.com/check?gameID=" + gameID + "&pid=" + playerid, function (data) {
-                if (data == '1') {
-                    ready = true;
-                }
-                finishedRequest = true;
-
-            });
-        }
-    }
-    console.log('Starting...');
-    beginGame();
-}
 
 // Handle page changes
-function urlChanged (tabId, changeInfo, tab) {
+function urlChanged(tabId, changeInfo, tab) {
     if (changeInfo.status == 'complete') { //once page fully loaded
         var urlArr = tab.url.split('/');
         console.log("tab url = " + tab.url);
@@ -141,10 +125,11 @@ function urlChanged (tabId, changeInfo, tab) {
             endGame();
         }
     }
-};
+}
 
 // Start running the game session
 function beginGame() {
+    clearInterval(checkTimer);
     chrome.tabs.query({active: true, currentWindow: true}, function (arrayOfTabs) {
         var activeTab = arrayOfTabs[0];
         dest_page = dest_url.split('/')[4];
@@ -163,6 +148,15 @@ function hostStart() {
         if (data != 'Success') {
             console.log("Failed to start game");
         } else {
+            beginGame();
+        }
+    });
+}
+
+function checkForGameStart() {
+    $.get("http://wiki-game-1109.appspot.com/check?gameID=" + gameID + "&pid=" + playerid, function (data) {
+        if (data == '1') {
+            console.log('Starting...');
             beginGame();
         }
     });
