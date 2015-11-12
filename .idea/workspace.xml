@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="05ce17b5-8397-49cf-8c89-48e37bc815c1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Server/appengine-python-flask-skeleton" afterPath="$PROJECT_DIR$/Server/appengine-python-flask-skeleton" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Extension/background.js" afterPath="$PROJECT_DIR$/Extension/background.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Extension/popup.html" afterPath="$PROJECT_DIR$/Extension/popup.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Extension/popup.js" afterPath="$PROJECT_DIR$/Extension/popup.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Server/appengine-python-flask-skeleton/main.py" afterPath="$PROJECT_DIR$/Server/appengine-python-flask-skeleton/main.py" />
     </list>
     <ignored path="WikiGame.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,8 +29,8 @@
       <file leaf-file-name="background.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Extension/background.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.62558687">
-              <caret line="89" column="20" selection-start-line="89" selection-start-column="20" selection-end-line="89" selection-end-column="20" />
+            <state vertical-scroll-proportion="0.40441176">
+              <caret line="78" column="12" selection-start-line="78" selection-start-column="12" selection-end-line="78" selection-end-column="12" />
               <folding>
                 <element signature="n#!!block;n#urlChanged#0" expanded="false" />
                 <element signature="n#!!block;n#beginGame#0" expanded="false" />
@@ -112,10 +109,9 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1938" />
-    <option name="height" value="1048" />
+    <option name="x" value="-8" />
+    <option name="width" value="976" />
+    <option name="height" value="1038" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -228,7 +224,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
     <property name="SearchEverywhereHistoryKey" value="plugins&#9;ACTION&#9;StartupWizard&#10;import&#9;ACTION&#9;WelcomeScreen.Configure.Import&#10;plugin&#9;ACTION&#9;WelcomeScreen.Plugins" />
@@ -594,15 +590,15 @@
       <workItem from="1446750861497" duration="108000" />
       <workItem from="1447341400699" duration="23000" />
       <workItem from="1447341690159" duration="2591000" />
-      <workItem from="1447350212370" duration="3655000" />
+      <workItem from="1447350212370" duration="4907000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7558000" />
+    <option name="totallyTimeSpent" value="8810000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
+    <frame x="-8" y="0" width="976" height="1038" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1126,8 +1122,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Extension/background.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.62558687">
-          <caret line="89" column="20" selection-start-line="89" selection-start-column="20" selection-end-line="89" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.40441176">
+          <caret line="78" column="12" selection-start-line="78" selection-start-column="12" selection-end-line="78" selection-end-column="12" />
           <folding>
             <element signature="n#!!block;n#urlChanged#0" expanded="false" />
             <element signature="n#!!block;n#beginGame#0" expanded="false" />

@@ -73,14 +73,16 @@ function joinGame(id) {
 function enterWaitingArea() {
     var ready = false;
     var finishedRequest = false;
-    while (!ready && finishedRequest) {
-        finishedRequest = false;
-        $.get("http://wiki-game-1109.appspot.com/check?gameID=" + gameID, function (data) {
-            if (data == '1') {
-                ready = true;
-                finishedRequest = true;
-            }
-        });
+    while (!ready) {
+        if(finishedRequest) {
+            finishedRequest = false;
+            $.get("http://wiki-game-1109.appspot.com/check?gameID=" + gameID, function (data) {
+                if (data == '1') {
+                    ready = true;
+                    finishedRequest = true;
+                }
+            });
+        }
     }
     console.log('Starting...');
     beginGame();
