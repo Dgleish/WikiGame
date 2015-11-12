@@ -83,8 +83,9 @@ function enterWaitingArea() {
             $.get("http://wiki-game-1109.appspot.com/check?gameID=" + gameID + "&pid=" + playerid, function (data) {
                 if (data == '1') {
                     ready = true;
-                    finishedRequest = true;
                 }
+                finishedRequest = true;
+
             });
         }
     }

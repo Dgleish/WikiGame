@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="05ce17b5-8397-49cf-8c89-48e37bc815c1" name="Default" comment="">
+    <list default="true" id="05ce17b5-8397-49cf-8c89-48e37bc815c1" name="Default" comment="Changed stupidity&#10;">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Extension/Overlay/overlay.css" afterPath="$PROJECT_DIR$/Extension/Overlay/overlay.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Extension/Overlay/overlay.js" afterPath="$PROJECT_DIR$/Extension/Overlay/overlay.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Extension/background.js" afterPath="$PROJECT_DIR$/Extension/background.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Extension/popup.html" afterPath="$PROJECT_DIR$/Extension/popup.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Server/appengine-python-flask-skeleton/main.py" afterPath="$PROJECT_DIR$/Server/appengine-python-flask-skeleton/main.py" />
     </list>
     <ignored path="WikiGame.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,14 +28,9 @@
       <file leaf-file-name="background.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Extension/background.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.72737956">
-              <caret line="33" column="46" selection-start-line="33" selection-start-column="46" selection-end-line="33" selection-end-column="46" />
-              <folding>
-                <element signature="n#!!block;n#urlChanged#0" expanded="false" />
-                <element signature="e#2994#4798#0" expanded="false" />
-                <element signature="n#!!block;n#beginGame#0" expanded="false" />
-                <element signature="n#!!block;n#hostStart#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="0.40070504">
+              <caret line="86" column="16" selection-start-line="86" selection-start-column="16" selection-end-line="86" selection-end-column="16" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -612,7 +603,7 @@
       <workItem from="1446750861497" duration="108000" />
       <workItem from="1447341400699" duration="23000" />
       <workItem from="1447341690159" duration="2591000" />
-      <workItem from="1447350212370" duration="8319000" />
+      <workItem from="1447350212370" duration="8750000" />
     </task>
     <task id="LOCAL-00001" summary="fix logic again">
       <created>1447361338056</created>
@@ -620,11 +611,17 @@
       <option name="project" value="LOCAL" />
       <updated>1447361338056</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Changed identify by IP by identify by random number&#10;">
+      <created>1447364746611</created>
+      <option name="number" value="00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1447364746611</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12222000" />
+    <option name="totallyTimeSpent" value="12653000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -632,7 +629,7 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32918552" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299435" sideWeight="0.5021436" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939035" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -696,7 +693,9 @@
       <path value="$PROJECT_DIR$/Server/appengine-python-flask-skeleton" />
     </ignored-roots>
     <MESSAGE value="fix logic again" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix logic again" />
+    <MESSAGE value="Changed identify by IP by identify by random number&#10;" />
+    <MESSAGE value="Changed stupidity&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed stupidity&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -749,12 +748,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#urlChanged#0" expanded="false" />
-            <element signature="e#2994#4798#0" expanded="false" />
-            <element signature="n#!!block;n#beginGame#0" expanded="false" />
-            <element signature="n#!!block;n#hostStart#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -806,12 +800,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#urlChanged#0" expanded="false" />
-            <element signature="e#2994#4798#0" expanded="false" />
-            <element signature="n#!!block;n#beginGame#0" expanded="false" />
-            <element signature="n#!!block;n#hostStart#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -863,12 +852,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#urlChanged#0" expanded="false" />
-            <element signature="e#2994#4798#0" expanded="false" />
-            <element signature="n#!!block;n#beginGame#0" expanded="false" />
-            <element signature="n#!!block;n#hostStart#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -920,12 +904,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#urlChanged#0" expanded="false" />
-            <element signature="e#2994#4798#0" expanded="false" />
-            <element signature="n#!!block;n#beginGame#0" expanded="false" />
-            <element signature="n#!!block;n#hostStart#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -977,12 +956,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="16" column="89" selection-start-line="16" selection-start-column="89" selection-end-line="16" selection-end-column="89" />
-          <folding>
-            <element signature="n#!!block;n#urlChanged#0" expanded="false" />
-            <element signature="e#2994#4798#0" expanded="false" />
-            <element signature="n#!!block;n#beginGame#0" expanded="false" />
-            <element signature="n#!!block;n#hostStart#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1034,12 +1008,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#urlChanged#0" expanded="false" />
-            <element signature="e#2994#4798#0" expanded="false" />
-            <element signature="n#!!block;n#beginGame#0" expanded="false" />
-            <element signature="n#!!block;n#hostStart#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1075,12 +1044,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#urlChanged#0" expanded="false" />
-            <element signature="e#2994#4798#0" expanded="false" />
-            <element signature="n#!!block;n#beginGame#0" expanded="false" />
-            <element signature="n#!!block;n#hostStart#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1181,14 +1145,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Extension/background.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.72737956">
-          <caret line="33" column="46" selection-start-line="33" selection-start-column="46" selection-end-line="33" selection-end-column="46" />
-          <folding>
-            <element signature="n#!!block;n#urlChanged#0" expanded="false" />
-            <element signature="e#2994#4798#0" expanded="false" />
-            <element signature="n#!!block;n#beginGame#0" expanded="false" />
-            <element signature="n#!!block;n#hostStart#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.40070504">
+          <caret line="86" column="16" selection-start-line="86" selection-start-column="16" selection-end-line="86" selection-end-column="16" />
+          <folding />
         </state>
       </provider>
     </entry>
