@@ -1,0 +1,1 @@
+appcfg.py -A wiki-game-1109 --oauth2 update .
