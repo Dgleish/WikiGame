@@ -5,22 +5,46 @@
 
     /* standard decorations */
     width: auto;
-    border: 10px solid #666;
     padding: 10px;
     background-color: #fff;
-    /* for modern browsers use semi-transparent color on the border. nice! */
-    border: 10px solid rgba(82, 82, 82, 0.698);
-
-    /* hot CSS3 features for mozilla and webkit-based browsers (rounded borders) */
-    -webkit-border-radius: 8px;
+    margin-left:35px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1),
+    0 10px 20px rgba(0, 0, 0, 0.05), 0 20px 20px rgba(0, 0, 0, 0.05),
+    0 30px 20px rgba(0, 0, 0, 0.05);
 }
 
-#wikigameInfoBox div {
+#target {
+    text-align: center;
     margin: -11px;
     margin-bottom: 0px;
     color: #fff;
-    background-color: #84B46D;
+    background-color: #00CCCC;
     padding: 5px 10px;
-    border: 1px solid #59983B;
     font-size: 20px;
+}
+
+#wikigameInfoBox table {
+    font-family: 'Arial';
+    width:100%;
+    margin: auto;
+    margin-top:-10px;
+    margin-right:-5px;
+    margin-left:-5px;
+    border-collapse: collapse;
+    padding:-5px;
+    border-bottom: 2px solid #00cccc;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1),
+    0 10px 20px rgba(0, 0, 0, 0.05), 0 20px 20px rgba(0, 0, 0, 0.05),
+    0 30px 20px rgba(0, 0, 0, 0.05);
+}
+#wikigameInfoBox th, #wikigameInfoBox td {
+    color: #999;
+    border: 1px solid #eee;
+    text-align:center;
+}
+#wikigameInfoBox th {
+    background: #00cccc;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 12px;
 }

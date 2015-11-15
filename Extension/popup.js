@@ -1,6 +1,5 @@
-//TODO: Decide how to handle initial player starting game from waiting area - different semantics?
+document.addEventListener('DOMContentLoaded', loadPopup);
 var backgroundPage = chrome.extension.getBackgroundPage();
-
 function createGame() {
     chrome.tabs.query({active: true, currentWindow: true}, function (arrayOfTabs) {
         var sourcePage = document.getElementById('source').value;
@@ -9,7 +8,7 @@ function createGame() {
     });
 }
 
-function startGame(){
+function startGame() {
     backgroundPage.hostStart();
 }
 function stopGame() {
@@ -17,12 +16,43 @@ function stopGame() {
 }
 
 function joinGame() {
-    backgroundPage.joinGame(document.getElementById('gameid').value);
+    var joinid = document.getElementById('gameid').value;
+    if (joinid != '') {
+        backgroundPage.joinGame(joinid);
+    }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+
+function loadPopup() {
+    var state = backgroundPage.getState();
+    switch (state[0]) {
+        case 0:
+            document.getElementById('create').style.display = 'inherit';
+            document.getElementById('join').style.display = 'inherit';
+            break;
+        case 1:
+            setTimeout(addID, 200);
+            document.getElementById('go').style.display = 'inherit';
+            document.getElementById('quit').style.display = 'inherit';
+            break;
+        default:
+            document.getElementById('playing').style.display = 'inherit';
+            document.getElementById('quit').style.display = 'inherit';
+            document.getElementById('playing').innerText += " " + state[1];
+    }
+
+    //add click listeners
     document.getElementById('createBtn').addEventListener('click', createGame);
     document.getElementById('goBtn').addEventListener('click', startGame);
     document.getElementById('stopBtn').addEventListener('click', stopGame);
     document.getElementById('joinBtn').addEventListener('click', joinGame);
-});
+}
+
+function addID() {
+    if (backgroundPage.getState()[1] == -1) {
+        setTimeout(addID, 200);
+    } else {
+        document.getElementById('playing').innerText += backgroundPage.getState()[1];
+        document.getElementById('playing').style.display = 'inherit';
+    }
+}

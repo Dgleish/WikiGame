@@ -5,24 +5,26 @@ var index = 0;
 var badgeText = '';
 var dest_page = '';
 var gameID = -1;
-var othersStats = [];
 var source_url = '';
 var dest_url = '';
 var playerid = 0;
 var checkTimer;
 chrome.browserAction.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
 
+//Popup state
+var state = 0;
+
 // On each page load send position to server and get back position of everyone else playing same game
 function update(tabId) {
     $.get("http://wiki-game-1109.appspot.com/update?gameID=" + gameID + "&index=" +
         (pages.length - 1) + "&pid=" + playerid, function (data) {
-        console.log("Data Loaded: " + data);
-        othersStats = [];
+        others = [];
+        othersPages = [];
         var delimited = data.split(',');
         for (var i = 0; i < delimited.length; i++) {
-            othersStats.push(delimited[i].split("'")[1] + ',' + delimited[i].split("'")[3] + "&");
+            others.push(delimited[i].split("'")[1] + "&");
+            othersPages.push(delimited[i].split("'")[3] + "&");
         }
-        console.log(othersStats);
         chrome.tabs.executeScript(tabId, {
             file: "jquery.tools.min.js"
         });
@@ -34,7 +36,7 @@ function update(tabId) {
         }, function () {
             chrome.tabs.executeScript(tabId, {
                 code: "createOverlay('" +
-                dest_page + "','" + othersStats + "');"
+                dest_page + "','" + others + "','" + othersPages + "');"
             });
         });
 
@@ -43,6 +45,8 @@ function update(tabId) {
 
 // Start a new game
 function registerGame(source, dest) {
+    state = 1;
+    creator = true;
     playerid = getRandomInt();
     $.get("http://wiki-game-1109.appspot.com/register?source=" + source
         + "&dest=" + dest + "&pid=" + playerid, function (data) {
@@ -62,6 +66,7 @@ function unregisterGame() {
 
 // Join a game in progress
 function joinGame(id) {
+    state = 2;
     playerid = getRandomInt();
     gameID = id;
     $.get("http://wiki-game-1109.appspot.com/join?gameID=" + gameID + "&pid=" + playerid, function (data) {
@@ -69,7 +74,6 @@ function joinGame(id) {
         if (data !== 'Failure') {
             source_url = data.split(',')[0];
             dest_url = data.split(',')[1];
-            enterWaitingArea();
             // Go into the waiting area before game starts
             checkTimer = setInterval(checkForGameStart, 500);
         }
@@ -104,7 +108,7 @@ function urlChanged(tabId, changeInfo, tab) {
                     pages.push(currPage);
                     index++;
                 }
-                update(tabId);
+
 
                 //check if reached destination
                 if (currPage === dest_page) {
@@ -116,6 +120,8 @@ function urlChanged(tabId, changeInfo, tab) {
                     });
 
                     endGame();
+                } else {
+                    update(tabId);
                 }
             }
         } else { //navigated away, naughty
@@ -133,7 +139,6 @@ function beginGame() {
     chrome.tabs.query({active: true, currentWindow: true}, function (arrayOfTabs) {
         var activeTab = arrayOfTabs[0];
         dest_page = dest_url.split('/')[4];
-        alert("Destination is " + dest_page.replace("_", " "));
         console.info("Start");
         timer = (new Date()).getTime();
         chrome.tabs.onUpdated.addListener(urlChanged);
@@ -144,6 +149,7 @@ function beginGame() {
 }
 
 function hostStart() {
+    state = 2;
     $.get("http://wiki-game-1109.appspot.com/go?gameID=" + gameID + "&pid=" + playerid, function (data) {
         if (data != 'Success') {
             console.log("Failed to start game");
@@ -164,15 +170,17 @@ function checkForGameStart() {
 
 // Stop running the game session
 function endGame() {
+    state = 0;
     unregisterGame();
+    creator = false;
     pages = [];
     index = 0;
     badgeText = '';
     dest_page = '';
     gameID = -1;
-    console.info("Stop");
     chrome.tabs.onUpdated.removeListener(urlChanged);
     chrome.browserAction.setBadgeText({text: badgeText});
+    console.info("Stop");
 }
 
 function incrementCounter() {
@@ -193,4 +201,11 @@ function getRandomInt() {
     var min = 10;
     var max = 1000000;
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getState() {
+    return [state, gameID];
+}
+function setState(x) {
+    state = x;
 }

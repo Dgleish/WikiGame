@@ -2,6 +2,7 @@
 # Import the Flask Framework
 from flask import Flask
 from flask import request
+import logging
 app = Flask(__name__)
 # Note: We don't need to call run() since our application is embedded within
 # the App Engine WSGI application server.
@@ -11,6 +12,8 @@ gameNumber = 0
 
 # List of dictionaries containing player IPs and page counts
 games = [[]]
+# Data structure goes like this:
+# [	[{'source':'http:...', 'dest':'http:...'},{Player1: 'pageCount', Player2: 'pageCount'}],   [{},{}]    ,    ...	    ,    ]
 
 # Dictionary containing games that are running
 runningGames = {}
@@ -47,12 +50,15 @@ def register():
 def unregister():
 	global gameNumber
 	pid = str(request.args.get('pid'))
+	logging.info(request.args.get('gameID'))
 	id = int(request.args.get('gameID'))
 	if id == -1:
 		return 'Error: Not in a game'
+	logging.info("number of players is " + str(len(games[id][1])))
 	if len(games[id][1]) == 1:
 		games[id] = []
-		runningGames.pop(id)
+		if runningGames.has_key(id):
+			runningGames.pop(id)
 		gameNumber -= 1
 	else:
 		del games[id][1][pid]

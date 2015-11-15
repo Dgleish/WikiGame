@@ -1,7 +1,9 @@
-function createOverlay(dest, stats) {
+function createOverlay(dest, players, stats) {
     var text = '<div id="wikigameInfoBox">' +
-        '<div>Target: ' + dest + '</div>' + '<br>' +
-        stats.replace(/&/g, "<br>").replace(/,/g, " | ") +
+        '<div id="target">Target: ' + dest + '</div>' + '<br>' +
+        '<table><tr><th>Player</th><th>Clicks</th></tr><tr><td align="center">' +
+        players.replace(/&/g, "<br>").replace(/,/g, "") + '</td><td align="center">' + stats.replace(/&/g, "<br>") +
+        '</td></tr></table>' +
         '</div>';
     $('body').append($(text));
     $('#wikigameInfoBox').overlay({
