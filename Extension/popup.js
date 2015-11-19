@@ -1,3 +1,4 @@
+//TODO: Fix joining non-existent game
 document.addEventListener('DOMContentLoaded', loadPopup);
 var backgroundPage = chrome.extension.getBackgroundPage();
 function createGame() {
