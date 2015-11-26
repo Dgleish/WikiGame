@@ -56,11 +56,17 @@
 </head>
 <body>
 <form autocomplete="off">
+    <div id="name" style="display: none;">
+        Nickname <input type="text" id="nameTxt">
+    </div>
     <div id="create" style="display:none;">
         Start Page<input type="text" id="source" autofocus>
         <button id="createBtn" style="float:right">Create</button>
     </div>
-    <div id="playing" style = "display:none">Game ID: </div>
+    <div id="playing" style = "display:none">
+        <span id="playingID">Game ID: </span><br>
+        <span id="playingName">Nickname: </span>
+        </div>
     <div id="go" style="display: none;">
         <button id="goBtn" style="width:100%">Go</button>
     </div>

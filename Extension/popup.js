@@ -5,12 +5,13 @@ function createGame() {
     chrome.tabs.query({active: true, currentWindow: true}, function (arrayOfTabs) {
         var sourcePage = document.getElementById('source').value;
         var activeTab = arrayOfTabs[0];
-        backgroundPage.registerGame("https://en.wikipedia.org/w/index.php?search=" + sourcePage, activeTab.url);
+        backgroundPage.registerGame("https://en.wikipedia.org/w/index.php?search=" + sourcePage,
+            activeTab.url, document.getElementById('nameTxt').value);
     });
 }
 
 function startGame() {
-    backgroundPage.hostStart();
+   backgroundPage.hostStart();
 }
 function stopGame() {
     backgroundPage.endGame();
@@ -19,7 +20,7 @@ function stopGame() {
 function joinGame() {
     var joinid = document.getElementById('gameid').value;
     if (joinid != '') {
-        backgroundPage.joinGame(joinid);
+        backgroundPage.joinGame(joinid, document.getElementById('nameTxt').value);
     }
 }
 
@@ -27,19 +28,19 @@ function joinGame() {
 function loadPopup() {
     var state = backgroundPage.getState();
     switch (state[0]) {
-        case 0:
+        case 0: // Pre-game state
+            document.getElementById('name').style.display = 'inherit';
             document.getElementById('create').style.display = 'inherit';
             document.getElementById('join').style.display = 'inherit';
             break;
-        case 1:
-            setTimeout(addID, 200);
+        case 1: // State when created a game, but waiting for other players
+            addGameInfo();
             document.getElementById('go').style.display = 'inherit';
             document.getElementById('quit').style.display = 'inherit';
             break;
-        default:
-            document.getElementById('playing').style.display = 'inherit';
+        default: // State when playing a game
+            addGameInfo();
             document.getElementById('quit').style.display = 'inherit';
-            document.getElementById('playing').innerText += " " + state[1];
     }
 
     //add click listeners
@@ -49,11 +50,13 @@ function loadPopup() {
     document.getElementById('joinBtn').addEventListener('click', joinGame);
 }
 
-function addID() {
-    if (backgroundPage.getState()[1] == -1) {
-        setTimeout(addID, 200);
+function addGameInfo() {
+    var currState = backgroundPage.getState();
+    if (currState[1] == -1) {
+        setTimeout(addGameInfo, 200);
     } else {
-        document.getElementById('playing').innerText += backgroundPage.getState()[1];
+        document.getElementById('playingID').innerText += currState[1];
+        document.getElementById('playingName').innerText += currState[2];
         document.getElementById('playing').style.display = 'inherit';
     }
 }

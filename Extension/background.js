@@ -8,6 +8,7 @@ var gameID = -1;
 var source_url = '';
 var dest_url = '';
 var playerid = 0;
+var nickname = '';
 var checkTimer;
 chrome.browserAction.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
 
@@ -21,9 +22,9 @@ function update(tabId) {
         others = [];
         othersPages = [];
         var delimited = data.split(',');
-        for (var i = 0; i < delimited.length; i++) {
-            others.push(delimited[i].split("'")[1] + "&");
-            othersPages.push(delimited[i].split("'")[3] + "&");
+        for (var i = 0; i < delimited.length-1; i++) {
+            others.push(delimited[i].split(":")[0] + "&");
+            othersPages.push(delimited[i].split(":")[1] + "&");
         }
         chrome.tabs.executeScript(tabId, {
             file: "jquery.tools.min.js"
@@ -44,12 +45,13 @@ function update(tabId) {
 }
 
 // Start a new game
-function registerGame(source, dest) {
+function registerGame(source, dest, nick) {
     state = 1;
     creator = true;
+    nickname = nick;
     playerid = getRandomInt();
     $.get("http://wiki-game-1109.appspot.com/register?source=" + source
-        + "&dest=" + dest + "&pid=" + playerid, function (data) {
+        + "&dest=" + dest + "&pid=" + playerid + "&nick=" + nick, function (data) {
         gameID = data;
         console.log("gameID: " + data);
         source_url = source;
@@ -65,13 +67,15 @@ function unregisterGame() {
 }
 
 // Join a game in progress
-function joinGame(id) {
+function joinGame(id, nick) {
     state = 2;
     playerid = getRandomInt();
+    nickname = nick;
     gameID = id;
-    $.get("http://wiki-game-1109.appspot.com/join?gameID=" + gameID + "&pid=" + playerid, function (data) {
+    $.get("http://wiki-game-1109.appspot.com/join?gameID=" + gameID +
+        "&pid=" + playerid + "&nick=" + nick, function (data) {
         console.log("joingame: " + data);
-        if (data !== 'Failure') {
+        if (data !== 'Invalid Game ID' && data !== 'Name already taken') {
             source_url = data.split(',')[0];
             dest_url = data.split(',')[1];
             // Go into the waiting area before game starts
@@ -85,7 +89,6 @@ function joinGame(id) {
 function urlChanged(tabId, changeInfo, tab) {
     if (changeInfo.status == 'complete') { //once page fully loaded
         var urlArr = tab.url.split('/');
-        console.log("tab url = " + tab.url);
         if (urlArr[2] === "en.wikipedia.org") { //if on wikipedia
             var currPage = urlArr[4].split("#")[0];
             if (currPage !== pages[index - 1]) { //check for navigation on same page
@@ -97,13 +100,10 @@ function urlChanged(tabId, changeInfo, tab) {
 
                 //check if just visited
                 if (pages.length > 1 && pages[index - 2] === currPage) {
-                    console.log("Went back");
                     decrementCounter();
                     index--;
                     pages.pop();
                 } else {
-                    console.log("Adding " + currPage + " at index " + index);
-                    console.log("Pages so far: " + pages);
                     incrementCounter();
                     pages.push(currPage);
                     index++;
@@ -139,7 +139,6 @@ function beginGame() {
     chrome.tabs.query({active: true, currentWindow: true}, function (arrayOfTabs) {
         var activeTab = arrayOfTabs[0];
         dest_page = dest_url.split('/')[4];
-        console.info("Start");
         timer = (new Date()).getTime();
         chrome.tabs.onUpdated.addListener(urlChanged);
         chrome.tabs.update(activeTab.id, {
@@ -178,6 +177,7 @@ function endGame() {
     badgeText = '';
     dest_page = '';
     gameID = -1;
+    nickname = '';
     chrome.tabs.onUpdated.removeListener(urlChanged);
     chrome.browserAction.setBadgeText({text: badgeText});
     console.info("Stop");
@@ -204,7 +204,7 @@ function getRandomInt() {
 }
 
 function getState() {
-    return [state, gameID];
+    return [state, gameID, nickname];
 }
 function setState(x) {
     state = x;
