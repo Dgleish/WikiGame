@@ -16,15 +16,19 @@ chrome.browserAction.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
 var state = 0;
 
 // On each page load send position to server and get back position of everyone else playing same game
-function update(tabId) {
+function update(tabId, pageCount) {
     $.get("http://wiki-game-1109.appspot.com/update?gameID=" + gameID + "&index=" +
-        (pages.length - 1) + "&pid=" + playerid, function (data) {
+        pageCount + "&pid=" + playerid, function (data) {
         others = [];
         othersPages = [];
         var delimited = data.split(',');
         for (var i = 0; i < delimited.length-1; i++) {
             others.push(delimited[i].split(":")[0] + "&");
-            othersPages.push(delimited[i].split(":")[1] + "&");
+            if (delimited[i].split(":")[1] == "-1") {
+                othersPages.push("Finished&")
+            } else {
+                othersPages.push(delimited[i].split(":")[1] + "&");
+            }
         }
         chrome.tabs.executeScript(tabId, {
             file: "jquery.tools.min.js"
@@ -61,7 +65,8 @@ function registerGame(source, dest, nick) {
 
 // Leave a game
 function unregisterGame() {
-    $.get("http://wiki-game-1109.appspot.com/unregister?gameID=" + gameID + "&pid=" + playerid, function (data) {
+    $.get("http://wiki-game-1109.appspot.com/unregister?gameID=" + gameID +
+        "&pid=" + playerid, function (data) {
         console.log("Unregistered: " + data);
     });
 }
@@ -75,11 +80,17 @@ function joinGame(id, nick) {
     $.get("http://wiki-game-1109.appspot.com/join?gameID=" + gameID +
         "&pid=" + playerid + "&nick=" + nick, function (data) {
         console.log("joingame: " + data);
-        if (data !== 'Invalid Game ID' && data !== 'Name already taken') {
-            source_url = data.split(',')[0];
-            dest_url = data.split(',')[1];
-            // Go into the waiting area before game starts
-            checkTimer = setInterval(checkForGameStart, 500);
+        if (data !== 'Invalid Game ID') {
+            if (data !== 'Name already taken') {
+                source_url = data.split(',')[0];
+                dest_url = data.split(',')[1];
+                // Go into the waiting area before game starts
+                checkTimer = setInterval(checkForGameStart, 500);
+            } else {
+                alert('Nickname is already in use');
+            }
+        } else {
+            alert('Invalid Game ID');
         }
     });
 
@@ -118,10 +129,10 @@ function urlChanged(tabId, changeInfo, tab) {
                         code: "alert('Finished! Took you " + timeTaken + "ms and "
                         + (pages.length - 1) + " steps');"
                     });
-
+                    update(tabId, -1);
                     endGame();
                 } else {
-                    update(tabId);
+                    update(tabId,pages.length - 1);
                 }
             }
         } else { //navigated away, naughty
@@ -205,7 +216,4 @@ function getRandomInt() {
 
 function getState() {
     return [state, gameID, nickname];
-}
-function setState(x) {
-    state = x;
 }

@@ -1,6 +1,6 @@
-//TODO: Fix joining non-existent game
 document.addEventListener('DOMContentLoaded', loadPopup);
 var backgroundPage = chrome.extension.getBackgroundPage();
+
 function createGame() {
     chrome.tabs.query({active: true, currentWindow: true}, function (arrayOfTabs) {
         var sourcePage = document.getElementById('source').value;
@@ -19,8 +19,13 @@ function stopGame() {
 
 function joinGame() {
     var joinid = document.getElementById('gameid').value;
+    var nick = document.getElementById('nameTxt').value;
     if (joinid != '') {
-        backgroundPage.joinGame(joinid, document.getElementById('nameTxt').value);
+        if (nick != '') {
+            backgroundPage.joinGame(joinid, document.getElementById('nameTxt').value);
+        } else {
+            alert("You need to provide a nickname");
+        }
     }
 }
 
