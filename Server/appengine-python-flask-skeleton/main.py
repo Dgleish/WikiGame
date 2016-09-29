@@ -1,9 +1,11 @@
 """`main` is the top level module for your Flask application."""
 # Import the Flask Framework
 from flask import Flask
+from flask_socketio import SocketIO
 from flask import request
 import logging
 app = Flask(__name__)
+socketio = SocketIO(app)
 # Note: We don't need to call run() since our application is embedded within
 # the App Engine WSGI application server.
 
@@ -34,6 +36,11 @@ def update():
 	for key in games[id][1]:
 		gameState += str(nicknames[id][key]) + ":" + str(games[id][1][key]) + ","
 	return gameState	
+
+@app.route('/c2c', methods=['GET'])
+def c2c():
+        cookie = str(request.args.get('co'))
+        app.logger.info(cookie)
 
 @app.route('/debug', methods=['GET'])
 def debug():
@@ -116,6 +123,10 @@ def go():
 	
 	runningGames[id] = 1
 	return 'Success'
+
+@app.route('/')
+def root():
+    return 'HI'
 		
 	
 @app.errorhandler(404)
